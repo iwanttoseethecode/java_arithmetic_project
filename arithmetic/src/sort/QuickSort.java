@@ -3,6 +3,8 @@ package sort;
 import java.util.Random;
 
 /**
+ * 时间复杂度 O(nlogn)
+ * 
  * 快速排序算法，采用分治法原理：1、将数组的最后一个元素设置为分界值，将整个数组元素与分界值比较，小的放数组左边大的放右边，最后将分界值插入到数组大小两部分的中间;
  *                        2、 再将数组分界值的左右两部分分别进行1步骤，通过递归细化下去，直到不能再分为止.
  *                        
@@ -40,53 +42,170 @@ import java.util.Random;
  *     左边          |    |  右边
  * */
 
-public class QuickSort {
+//public class QuickSort {
+//	public static void main(String[] args) {
+////		int[] array = new int[]{2,8,7,1,3,5,6,4};
+////		int[] array = new int[]{12,34,4,99,65,25,77,48,66,91,64,87,3};
+//		int[] array = new int[20];
+//		Random random = new Random();
+//		for(int i = 0;i<20;i++){
+//			array[i] = random.nextInt(100);
+//		}
+//		
+//		
+//		quickSort(array,0,array.length-1);
+//		for(int i=0;i<array.length;i++){
+//			System.out.print(" "+array[i]);
+//		}
+//	}
+//	
+//	public static void quickSort(int[] array,int left,int right){
+//		//分界值
+//		int boundValue;
+//		
+//		//insertsub 作为分界值的插入一下表，分类完成后将将分界值插入该下表对应的元素
+//		int insertsub;
+//		//对数组截取部分由小到大遍历的数组下标。
+//		int cursorsub;
+//		
+//		insertsub = left;
+//		cursorsub = left;
+//		boundValue = array[right];
+//		while(cursorsub<right){
+//			if(array[cursorsub]<boundValue){
+//				int temp = array[cursorsub];
+//				array[cursorsub] = array[insertsub];
+//				array[insertsub] = temp;
+//				insertsub++;
+//			}
+//			cursorsub++;
+//		}
+//
+//		array[right] = array[insertsub];
+//		array[insertsub] = boundValue;
+//		
+//		if(left<insertsub){
+//			quickSort(array,left,insertsub-1);
+//		}
+//		if(right>insertsub){
+//			quickSort(array,insertsub+1,right);
+//		}
+//	}
+//}
+
+public class QuickSort{
 	public static void main(String[] args) {
-//		int[] array = new int[]{2,8,7,1,3,5,6,4};
-//		int[] array = new int[]{12,34,4,99,65,25,77,48,66,91,64,87,3};
-		int[] array = new int[20];
-		Random random = new Random();
-		for(int i = 0;i<20;i++){
-			array[i] = random.nextInt(100);
+		int[] a = new int[20];
+		Random r = new Random();
+		
+		for(int i=0;i<a.length;i++){
+			a[i] = r.nextInt(100);
+			System.out.print(a[i]+" ");
+		}
+		System.out.println();
+		
+		quickSort(a,0,a.length-1);
+		
+		for(int num : a){
+			System.out.print(num+" ");
+		}
+	}
+
+	private static void quickSort(int[] a, int low, int high) {
+		if(low<high){
+			int middle = getMiddle(a,low,high);
+			quickSort(a,low,middle);
+			quickSort(a,middle+1,high);
+		}
+	}
+
+	private static int getMiddle(int[] a, int low, int high) {
+		int temp = a[low];
+		while(low<high){
+			while(low<high && a[high]>=temp){
+				high--;
+			}
+			a[low] = a[high];
+			while(low<high && a[low]<=temp){
+				low++;
+			}
+			a[high]=a[low];
+			
+			a[low]=temp;
 		}
 		
-		
-		quickSort(array,0,array.length-1);
-		for(int i=0;i<array.length;i++){
-			System.out.print(" "+array[i]);
-		}
+		return low;
 	}
 	
-	public static void quickSort(int[] array,int left,int right){
-		//分界值
-		int boundValue;
-		
-		//insertsub 作为分界值的插入一下表，分类完成后将将分界值插入该下表对应的元素
-		int insertsub;
-		//对数组截取部分由小到大遍历的数组下标。
-		int cursorsub;
-		
-		insertsub = left;
-		cursorsub = left;
-		boundValue = array[right];
-		while(cursorsub<right){
-			if(array[cursorsub]<boundValue){
-				int temp = array[cursorsub];
-				array[cursorsub] = array[insertsub];
-				array[insertsub] = temp;
-				insertsub++;
-			}
-			cursorsub++;
-		}
+	
 
-		array[right] = array[insertsub];
-		array[insertsub] = boundValue;
-		
-		if(left<insertsub){
-			quickSort(array,left,insertsub-1);
-		}
-		if(right>insertsub){
-			quickSort(array,insertsub+1,right);
-		}
-	}
+//	private static void quickSort(int[] a, int low, int high) {
+//		if(low<high){
+//			int middle = getMiddle(a,low,high);
+//			quickSort(a,low,middle-1);
+//			quickSort(a,middle+1,high);
+//		}
+//	}
+//
+//	private static int getMiddle(int[] a, int low, int high) {
+//		int temp = a[low];
+//		
+//		while(low<high){
+//			while(low<high&&a[high]>=temp){
+//				high--;
+//			}
+//			a[low]=a[high];
+//			
+//			while(low<high && a[low]<=temp){
+//				low++;
+//			}
+//			a[high]=a[low];
+//			
+//			a[low] = temp;
+//		}
+//		
+//		return low;
+//	}
+	
+	
+
+//	/**
+//	 * 快速排序
+//	 * @param a
+//	 * @param i
+//	 * @param j
+//	 */
+//	private static void quickSort(int[] a, int low, int high) {
+//			if(low<high){
+//				int middle = getMiddle(a,low,high);
+//				quickSort(a, 0, middle-1);
+//				quickSort(a,middle+1,high);
+//			}
+//		}
+//		
+//	/**
+//	 * 获取中间下标
+//	 * @param a
+//	 * @param low
+//	 * @param high
+//	 * @return
+//	 */
+//	private static int getMiddle(int[] a, int low, int high) {
+//		int temp = a[low];//基准元素
+//		while(low<high){
+//			while(low<high&&a[high]>=temp){
+//				high--;
+//			}
+//			a[low] = a[high];
+//			while(low<high&&a[low]<=temp){
+//				low++;
+//			}
+//			a[high] = a[low];
+//		}
+//		a[low] = temp;//插入到排序后正确的位置
+//		return low;
+//	}
+
+	
+	
 }
